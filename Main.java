@@ -57,10 +57,11 @@ public class Main {
             e.printStackTrace();
         }
 
+        AppData readData ;
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(fileName))) {
             String tempString;
             boolean first = true;
-            String[] newHeaders ;
+            String[] newHeaders = new String[1];
             ArrayList<int[]> newValsTemp = new ArrayList<int[]>();
             while((tempString = bufferedReader.readLine())!= null){
                 String[] tempVals = tempString.split(splitter);
@@ -70,15 +71,26 @@ public class Main {
                     for(int i = 0; i < tempVals.length; i++){
                         newHeaders[i] = tempVals[i];
                     }
+                    first = false;
                 }
                 else {
                     int[] valsItem = new int[tempVals.length];
                     for(int i = 0; i < tempVals.length; i++){
                         valsItem[i] = Integer.parseInt(tempVals[i]);
                     }
+                    newValsTemp.add(valsItem);
                 }
 
             }
+
+            int[][] newVals = new int[newValsTemp.size()][];
+
+            for(int i = 0; i < newValsTemp.size(); i++){
+                newVals[i] = newValsTemp.get(i);
+            }
+
+            readData = new AppData(newHeaders,newVals );
+
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
